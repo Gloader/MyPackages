@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class ActivateTrigger : MonoBehaviour {
-	public enum Mode {
+public class ActivateTrigger : MonoBehaviour
+{
+	public enum Mode
+	{
 		Trigger   = 0, // Just broadcast the action on to the target
 		Replace   = 1, // replace target with source
 		Activate  = 2, // Activate the target GameObject
@@ -19,24 +21,28 @@ public class ActivateTrigger : MonoBehaviour {
 	public int triggerCount = 1;///
 	public bool repeatTrigger = false;
 	
-	void DoActivateTrigger () {
+	void DoActivateTrigger()
+	{
 		triggerCount--;
 
-		if (triggerCount == 0 || repeatTrigger) {
+		if (triggerCount == 0 || repeatTrigger)
+		{
 			Object currentTarget = target != null ? target : gameObject;
 			Behaviour targetBehaviour = currentTarget as Behaviour;
 			GameObject targetGameObject = currentTarget as GameObject;
 			if (targetBehaviour != null)
 				targetGameObject = targetBehaviour.gameObject;
 		
-			switch (action) {
+			switch (action)
+			{
 				case Mode.Trigger:
-					targetGameObject.BroadcastMessage ("DoActivateTrigger");
+					targetGameObject.BroadcastMessage("DoActivateTrigger");
 					break;
 				case Mode.Replace:
-					if (source != null) {
-						Object.Instantiate (source, targetGameObject.transform.position, targetGameObject.transform.rotation);
-						DestroyObject (targetGameObject);
+					if (source != null)
+					{
+						Object.Instantiate(source, targetGameObject.transform.position, targetGameObject.transform.rotation);
+						DestroyObject(targetGameObject);
 					}
 					break;
 				case Mode.Activate:
@@ -47,7 +53,7 @@ public class ActivateTrigger : MonoBehaviour {
 						targetBehaviour.enabled = true;
 					break;	
 				case Mode.Animate:
-					targetGameObject.animation.Play ();
+					targetGameObject.animation.Play();
 					break;	
 				case Mode.Deactivate:
 					targetGameObject.SetActive(false);
@@ -56,7 +62,8 @@ public class ActivateTrigger : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter (Collider other) {
-		DoActivateTrigger ();
+	void OnTriggerEnter(Collider other)
+	{
+		DoActivateTrigger();
 	}
 }
